@@ -106,6 +106,7 @@ runs:
         }
 
         try {
+          write-host "Arguments setup: $toolArgs"
           & apple $toolArgs
         } catch {
           write-host $_
