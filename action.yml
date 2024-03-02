@@ -4,6 +4,9 @@ branding:
   icon: smartphone
   color: purple
 inputs:
+  nugetconfig:
+    description: 'The path to the NuGet.config file to use for package sources.'
+    required: true
   keychain:
     description: 'Keychain file to import certificates to (can leave blank, will default to build.keychain-db). Example, "build.keychain-db".'
     required: false
@@ -36,7 +39,8 @@ runs:
   steps:
     - shell: pwsh
       run: |
-        & dotnet tool install --global AppleDev.Tools --version 0.4.0
+        $nugetfile = "${{ inputs.nugetconfig }}".Trim()
+        & dotnet tool install --configfile $nugetfile --global MShenoy83.AppleDev.Tools
 
         $toolArgs = @("ci", "provision")
 
