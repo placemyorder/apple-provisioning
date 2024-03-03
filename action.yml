@@ -60,6 +60,8 @@ runs:
         $profileTypes = "${{ inputs.profile-types }}".Split(',')
         $bundleIdentifiers = "${{ inputs.bundle-identifiers }}".Split(',')
         $setKeychainDefault = "${{ inputs.set-keychain-default }}".Trim()
+        $rootcertificate = "${{ inputs.rootcertificate }}".Trim()
+        $intermediatecertificate = "${{ inputs.intermediatecertificate }}".Trim()
 
         if ($keychain) {
           $toolArgs += "--keychain"
