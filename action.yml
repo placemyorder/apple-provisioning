@@ -19,6 +19,12 @@ inputs:
   certificate-passphrase:
     description: 'Passphrase for the specified certificate file if required.'
     required: false
+  rootcertificate:
+    description: 'Apple Root certificate to import into the keychain.  This should be either the filename of the certificate itself, or the name of an environment variable containing a Base64 encoded string representation of the binary certificate file. Example, "path/to/dist.pcer12" or "APPLE_ROOT_CERT".'
+    required: false
+  intermediatecertificate:
+    description: 'Apple Intermediate certificate to import into the keychain.  This should be either the filename of the certificate itself, or the name of an environment variable containing a Base64 encoded string representation of the binary certificate file. Example, "path/to/dist.pcer12" or "APPLE_INTERMEDIATE_CERT".'
+    required: false    
   bundle-identifiers:
     description: 'Comma separated list of one or more app bundle-identifiers to filter provisioning profiles for.  Example, "com.mycompany.myapp" or "com.mycompany.myapp1,com.mycompany.myapp2".'
     required: true
@@ -74,6 +80,18 @@ runs:
           $toolArgs += "--certificate-passphrase"
           $toolArgs += $certificatePassphrase
         }
+
+        if($rootcertificate)
+        {
+          $toolArgs += "--rootcacertificate"
+          $toolArgs += $rootcertificate          
+        }
+
+        if($intermediatecertificate)
+        {
+          $toolArgs += "--intermediatecertificate"
+          $toolArgs += $intermediatecertificate          
+        }        
 
         if ($appStoreConnectKeyId) {
           $toolArgs += "--api-key-id"
