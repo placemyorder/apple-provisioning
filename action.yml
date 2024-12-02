@@ -40,6 +40,9 @@ inputs:
   app-store-connect-private-key:
     description: 'The App Store Connect API private key.  This should be either the filename of the .p8 private key itself, or the name of an environment variable containing the string contents of the .p8 private key file. Example, "path/to/key.p8" or "APP_STORE_CONNECT_PRIVATE_KEY". This value can also be set using the "APP_STORE_CONNECT_PRIVATE_KEY" environment variable.'
     required: false
+  verboselog:
+    description: 'Option to make the log verbose.'
+    required: true      
 runs:
   using: 'composite'
   steps:
@@ -62,6 +65,7 @@ runs:
         $setKeychainDefault = "${{ inputs.set-keychain-default }}".Trim()
         $rootcertificate = "${{ inputs.rootcertificate }}".Trim()
         $intermediatecertificate = "${{ inputs.intermediatecertificate }}".Trim()
+        $verboseLog = "${{ inputs.verboselog }}".Trim()
 
         if ($keychain) {
           $toolArgs += "--keychain"
@@ -128,6 +132,10 @@ runs:
             $toolArgs += $bundleIdentifier
           }
           }
+        }
+
+        if ($verboseLog) {
+          $toolArgs += "--verbose"
         }
 
         try {
